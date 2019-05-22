@@ -109,12 +109,13 @@ int uv_tls_accept(uv_tls_t *t, uv_handshake_cb cb)
 static void evt_on_rd(evt_tls_t *t, char *bfr, int sz)
 {
     uv_buf_t data;
-    uv_tls_t *tls = (uv_tls_t*)t->data;
+    uv_tls_t *tls = (uv_tls_t*)t->data; // TODO: data is not anymore the owner of the tls instance
 
     data.base = bfr;
     data.len = sz;
 
     assert(tls->tls_rd_cb != NULL);
+    // TODO: copy the correct ssl context to tls
     tls->tls_rd_cb(tls, sz, &data);
 }
 
